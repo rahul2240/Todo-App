@@ -1,34 +1,37 @@
-const mongoose = require('mongoose');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-mongoose.Promise = global.Promise;
+const {mongoose} = require('./db/mongoose');
+const {Todo} = require('./models/todo');
 
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+var app = express();
 
-var Todo = mongoose.model('Todo', {
-  text: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength: 1
-  },
-  complete: {
-    type: Boolean,
-    default: false
-  },
-  completedAt: {
-    type: Number,
-    default: null
-  }
+app.use(bodyParser.json());
+
+app.post('/todos', (req, res) => {
+  var todo = new Todo({
+    text: req.body.text
+  });
+
+  todo.save().then((doc) => {
+    res.send(doc);
+  }, (e) => {
+    res.status(400).send(e);
+  });
 });
 
-var newTodo = new Todo({
-  complete: true,
-  text: 'fourth todo',
-  completedAt: 123
-});
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+})
 
-newTodo.save().then((doc) => {
-  console.log(JSON.stringify(doc, undefined, 2));
-}, (e) => {
-  console.log('Unable to connect to the database');
-});
+// var newTodo = new Todo({
+//   complete: true,
+//   text: 'fourth todo',
+//   completedAt: 123
+// });
+//
+// newTodo.save().then((doc) => {
+//   console.log(JSON.stringify(doc, undefined, 2));
+// }, (e) => {
+//   console.log('Unable to connect to the database');
+// });
