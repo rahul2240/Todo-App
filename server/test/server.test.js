@@ -87,4 +87,11 @@ describe('POST /todos', () => {
       })
       .end(done)
     });
+
+    it('should return 400 on bad id', (done) => {
+      request(app)
+      .get('/todos/123')
+      .expect(400)
+      .end(done)
+    });
   });
