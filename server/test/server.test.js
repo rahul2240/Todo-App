@@ -155,7 +155,7 @@ describe('POST /todos', () => {
       .expect((res) => {
         expect(res.body.todo.text).toBe(text);
         expect(res.body.todo.completedAt).toBeTruthy();
-        
+
 
       })
       .end(done);
