@@ -3,24 +3,14 @@ const request = require('supertest');
 
 const {Todo} = require('./../models/todo');
 const {app} = require('./../server');
-const {ObjectId} = require('mongodb');
-
-const todos = [{
-      _id: new ObjectId(),
-      text: 'text 1'
-    },{
-      _id: new ObjectId(),
-      text: 'text 2',
-      completed: true,
-      completedAt: 333
-    }];
+const {ObjectID} = require('mongodb');
+const {todos, populateTodos, users, populateUsers} = require('./seed/seed');
 
 
-beforeEach((done) => {
-  Todo.remove({}).then(() => {
-    return Todo.insertMany(todos);
-  }).then(() => done());
-});
+
+beforeEach(populateUsers);
+beforeEach(populateTodos);
+
 
 describe('POST /todos', () => {
   it('should create a new todo', (done) => {
@@ -122,7 +112,7 @@ describe('POST /todos', () => {
     });
 
     it('should return 404 if todo not found', (done) => {
-      var id = new ObjectId().toHexString();
+      var id = new ObjectID().toHexString();
 
       request(app)
       .delete(`/todos/${id}`)
