@@ -22,12 +22,14 @@ const users = [{
 }];
 const todos = [{
       _id: new ObjectID(),
-      text: 'text 1'
+      text: 'text 1',
+      _creator: userOneId
     },{
       _id: new ObjectID(),
       text: 'text 2',
       completed: true,
-      completedAt: 333
+      completedAt: 333,
+      _creator: userTwoId
     }];
 
 
