@@ -146,9 +146,8 @@ describe('POST /todos', () => {
       })
       .expect(200)
       .expect((res) => {
-        expect(res.body.todo.text).toBe(text);
-        expect(res.body.todo.completedAt).toBeTruthy();
-
+      expect(res.body.text).toBe(text);
+      expect(res.body.completedAt).toBeTruthy();
 
       })
       .end(done);
@@ -167,9 +166,8 @@ describe('POST /todos', () => {
         })
         .expect(200)
         .expect((res) => {
-          expect(res.body.todo.text).toBe(text);
-
-          expect(res.body.todo.completedAt).toBeFalsy();
+          expect(res.body.text).toBe(text);
+          expect(res.body.completedAt).toBeFalsy();
         })
         .end(done);
     });
