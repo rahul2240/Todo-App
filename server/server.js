@@ -1,5 +1,3 @@
-require('./config/config');
-
 const {ObjectId} = require('mongodb');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -11,9 +9,14 @@ const {authenticate} = require('./middleware/authenticate');
 
 var app = express();
 
-const port = process.env.port || 3000;
+const port = 8080;
 
+app.set('view engine', 'hbs');
 app.use(bodyParser.json());
+
+app.get('/', (req, res) => {
+    res.render(__dirname + '/views/home.hbs')
+});
 
 app.post('/todos', authenticate,async (req, res) => {
   const todo = new Todo({
